@@ -10,18 +10,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        // Stage - это контейнер, ассоциированный с окном
-
-        // Если вы загляните в файл sample.fxml, то у видете в нем XML объявление элемента GridPane, т.е. табличного контейнера
-        // Этот контейнер мы будем считать корневым, т.е. все элементы нашего приложения будут содержаться в нем
         Group root = new Group();
 
-        primaryStage.setTitle("Фракталы");
+        primaryStage.setTitle("3D графика");
         primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(root, 800, 640));
-        Canvas canvas = new Canvas(800, 640); // создаем новый объект Canvas с шириной 300px, и высотой 275px
-        root.getChildren().add(canvas); // добавляем его в корневой контейнер
-
+        Canvas canvas = new Canvas(800, 640);
+        root.getChildren().add(canvas);
 
         MyGraphic myGraphic = new MyGraphic(canvas);
 

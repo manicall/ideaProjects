@@ -1,5 +1,7 @@
 package sample;
 
+import java.util.Locale;
+
 public class Complex {
     final double x;
     final double y;
@@ -28,6 +30,9 @@ public class Complex {
     }
     public Complex mul(double b) {
         return new Complex(x * b, y * b);
+    }
+    public Complex div(double b) {
+        return new Complex(x / b, y / b);
     }
     public double len2() {
         return x * x + y * y;
@@ -85,6 +90,7 @@ public class Complex {
     }
     @Override
     public String toString() {
-        return "Complex [x=" + x + ", y=" + y + "]";
+        return "(" + String.format(Locale.ROOT,"%.3f", x)
+              + String.format(Locale.ROOT,"%+.3f", y) + "i)";
     }
 }
