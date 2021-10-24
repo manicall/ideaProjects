@@ -17,6 +17,7 @@ public class Main extends Application {
                 getTab(new Fractal2(), "Второй фрактал"),
                 getTab(new Fractal3(), "Пример"));
 
+        primaryStage.setTitle("Фракталы");
         primaryStage.setScene(new Scene(pane, 800, 640));
         primaryStage.setResizable(false);
         primaryStage.show();

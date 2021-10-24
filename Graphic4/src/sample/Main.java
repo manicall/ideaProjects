@@ -1,31 +1,43 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Group root = new Group();
+        TabPane pane = new TabPane();
 
-        primaryStage.setTitle("3D графика");
+        pane.getTabs().addAll(
+                getTab("Первая поверхность"));
+
+        primaryStage.setTitle("Поверхности");
+        primaryStage.setScene(new Scene(pane, 800, 640));
         primaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(root, 800, 640));
-        Canvas canvas = new Canvas(800, 640);
-        root.getChildren().add(canvas);
-
-        MyGraphic myGraphic = new MyGraphic(canvas);
-
-        myGraphic.draw();
-
-        primaryStage.show(); // запускаем окно
+        primaryStage.show();
     }
 
-    // метод main в JavaFX приложениях не является обязательным
+    Tab getTab(String title){
+        Canvas canvas = new Canvas(800, 640);
+
+        Tab tab = new Tab(title);
+        tab.setContent(canvas);
+        tab.setClosable(false);
+
+        Render render = new Render(canvas);
+        render.draw();
+
+        return tab;
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
