@@ -1,27 +1,38 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Group root = new Group();
+        TabPane pane = new TabPane();
 
-        primaryStage.setTitle("Фракталы");
+        pane.getTabs().addAll(
+                getTab(new Fractal1(), "Первый фрактал"),
+                getTab(new Fractal2(), "Второй фрактал"),
+                getTab(new Fractal3(), "Пример"));
+
+        primaryStage.setScene(new Scene(pane, 800, 640));
         primaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(root, 800, 640));
-        Canvas canvas = new Canvas(800, 640); // создаем новый объект Canvas с шириной 300px, и высотой 275px
-        root.getChildren().add(canvas); // добавляем его в корневой контейнер
+        primaryStage.show();
+    }
 
-        Render render = new Render(canvas);
+    Tab getTab(Fractal fractal, String title){
+        Canvas canvas = new Canvas(800, 640);
+
+        Tab tab = new Tab(title);
+        tab.setContent(canvas);
+        tab.setClosable(false);
+
+        Render render = new Render(canvas, fractal);
         render.draw();
 
-        primaryStage.show();
+        return tab;
     }
 
     // метод main в JavaFX приложениях не является обязательным

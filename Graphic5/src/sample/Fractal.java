@@ -1,7 +1,8 @@
 package sample;
 
-public abstract class Fractal {
+public interface Fractal {
 
-    public abstract void f(Complex z);
-    public abstract void fs(Complex z);
+    public abstract Complex f(Complex z);
+    public abstract Complex fs(Complex z);
+    public abstract Complex[] getRoot();
 }
