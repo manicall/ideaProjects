@@ -12,119 +12,183 @@ import java.util.ArrayList;
 
 public class Render {
     Canvas canvas;
-    int nx = 60;
-    int ny = 60;
+    int nx = 40;
+    int ny = 40;
+    float p = 3.7f;
 
-    float xmax = 5, xmin = -5, ymax = 5, ymin = -5,  zmax, zmin,hx,hy;
-    float exmax, exmin, eymax, eymin ;
-    int gmex, gmey ;
+    float xmax = p, xmin = -p, ymax = p, ymin = -p, zmax = 2 * p, zmin = 0;
+    float exmax, exmin, eymax, eymin;
+    int mx, my; Color line_color, pol_color;
+
     //-------------------------------------------------------------------------
-    Render(Canvas canvas)
-    {
+    Render(Canvas canvas) {
         this.canvas = canvas;
         int i, j;
-        float x,y,z;
+        float x, y, z;
         // Подготовка окна вывода
         // Инициализация графического режима
-        hy=(ymax-ymin)/ny;
-        hx=(xmax-xmin)/nx;
-        gmex= (int) canvas.getWidth();
-        gmey= (int) canvas.getHeight();
+        /*hy = (ymax - ymin) / ny;
+        hx = (xmax - xmin) / nx;
+        gmex = (int) canvas.getWidth() - 1;
+        gmey = (int) canvas.getHeight() - 1;*/
     }
-    // Функция z=f(x,y)
-    float fz(float x, float y)
-    {
-        return (float) (7*Math.sin(x)*Math.sin(y));
-    }
-    // Параллельная проекция
-    // x координата на плоскости проекциии
-    float ex(float x, float y, float z)
-    {
-        return (float) (y-0.7*x);
-    }
-    // y координата на плоскости проекции
-    float ey ( float x, float y, float z )
-    {
-        return (float) (z-0.7*x);
-    }
-    // Вычисление координат полигона
-    void fpoly(float [] x, float [] y, float [] z, int n)
-    {
-        float px,py;
-        int []ix= new int[n];
-        int []iy= new int[n];
 
-        ArrayList<Point2D> p = new ArrayList<Point2D>();
+//функция f по заданной точке на плоскости 0xy
 
-        for (int i=0; i<n; i++)
-        {
-            px=ex(x[i],y[i],z[i]);
-            ix[i]= (int) ((px-exmin)*gmex/(exmax-exmin));
-            py=ey(x[i],y[i],z[i]);
-            iy[i]= (int) ((py-eymin)*gmey/(eymax-eymin));
-            p.add(new Point2D(ix[i], gmey-iy[i]));
-        }
+//находит и возвращает координату z
+
+
+
+    float f(float x,float y) {
+        return (float) (1.2*Math.sin(Math.cos(x+y)-Math.cos(y-x)));
+    }
+
+
+//по данной точке в пространстве находим абсциссу
+
+//точки на плоскости проекции
+
+    float ex(float x,float y,float z) {return (float) (-0.2*x+0.4*y);}
+
+//по данной точке в пространстве находим ординату
+
+//точки на плоскости проекции
+
+    float ey(float x,float y,float z) {
+        return (float) (-0.1*x+0.2*z);
+    }
+
+//параметрами ф-ции являются координаты вершин четырехугольника
+
+//в пространстве
+
+//Ф-ция осуществляет проекцию этого четырехугольника
+
+//на плоскость и вывод закрашенного четырехугольника на экран компьютера
+
+    void vectfi(float x0, float y0, float z0,
+
+                float x1, float y1, float z1,
+
+                float x2, float y2, float z2,
+
+                float x3, float y3, float z3) {
+
+        float ex0, ey0, ex1, ey1, ex2, ey2, ex3, ey3;//координаты точек на плоскости
+
+        //проекции
+
+        double [] xx = new double[4];           //экранные координаты точек
+        double [] yy = new double[4];           //экранные координаты точек
+
+//проецирование
+
+//точек на плоскость       //перевод в экранные координаты
+
+        ex0 = ex(x0, y0, z0);         xx[0] = ((ex0 - exmin) * mx / (exmax - exmin));
+
+        ey0 = ey(x0, y0, z0);         yy[0] = (my - (ey0 - eymin) * my / (eymax - eymin));
+
+        ex1 = ex(x1, y1, z1);         xx[1] = ((ex1 - exmin) * mx / (exmax - exmin));
+
+        ey1 = ey(x1, y1, z1);         yy[1] = (my - (ey1 - eymin) * my / (eymax - eymin));
+
+        ex2 = ex(x2, y2, z2);         xx[2] = ((ex2 - exmin) * mx / (exmax - exmin));
+
+        ey2 = ey(x2, y2, z2);         yy[2] = (my - (ey2 - eymin) * my / (eymax - eymin));
+
+        ex3 = ex(x3, y3, z3);         xx[3] = ((ex3 - exmin) * mx / (exmax - exmin));
+
+        ey3 = ey(x3, y3, z3);         yy[3] = (my - (ey3 - eymin) * my / (eymax - eymin));
+
+
+        //setcolor(line_color);               //установка цвета линии
+        //setfillstyle(SOLID_FILL, pol_color); //установка типа и цвета заливки
+
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
+        gc.setStroke(line_color);
+        gc.setFill(pol_color);
 
-        double [] xx = new double[n];
-        double [] yy = new double[n];
+        gc.fillPolygon(xx, yy,4);                 //рисование закрашенного четырехугольника
+        gc.strokePolygon(xx, yy,4);                 //рисование закрашенного четырехугольника
 
-        for (int i = 0; i < n; i++) {
-            xx[i] = p.get(i).getX();
-        }
-        for (int i = 0; i < n; i++) {
-            yy[i] = p.get(i).getY();
-        }
-
-
-
-        gc.strokePolygon(xx, yy, n - 1);
-    }
-    //-------------------------------------------------------------------------
-    void draw()
-    {
-        int i,j; float x, y, z;
-        float [] xx = new float[4];
-        float [] yy = new float[4];
-        float [] zz = new float[4];
-        //Form1->Image1->Canvas->FillRect(TRect(0,0,gmex,gmey));
-        zmin=zmax=0f;
-        for (i=0; i<=nx; i++)
-            for (j=0; j<=ny; j++)
-            {
-                z=fz(xmin+i*hx,ymin+j*hy);
-                if (z>zmax) zmax=z;
-                if (z<zmin) zmin=z;
-            }
-        exmax=ex(xmin, ymax, zmax);
-        exmin=ex(xmax, ymin, zmin);
-        eymax=ey(xmin, ymax, zmax);
-        eymin=ey(xmax, ymin, zmin);
-        for(x=xmin; x<=xmax; x+=xmax-xmin)
-            for(y=ymin; y<=ymax; y+=ymax-ymin)
-                for(z=zmin; z<=zmax; z+=zmax-zmin)
-                {
-                    if (exmax<ex(x,y,z)) exmax=ex(x,y,z);
-                    if (exmin>ex(x,y,z)) exmin=ex(x,y,z);
-                    if (eymax<ey(x,y,z)) eymax=ey(x,y,z);
-                    if (eymin>ey(x,y,z)) eymin=ey(x,y,z);
-                }
-        for (i=0; i<nx; i++)
-        {
-            xx[0]=xmin+i*hx; xx[1]=xmin+(i+1)*hx;
-            xx[2]=xmin+(i+1)*hx; xx[3]=xmin+i*hx;
-            for (j=0; j<ny; j++)
-            {
-                yy[0]=ymin+j*hy; zz[0]=fz(xx[0],yy[0]);
-                yy[1]=ymin+j*hy; zz[1]=fz(xx[1],yy[1]);
-                yy[2]=ymin+(j+1)*hy; zz[2]=fz(xx[2],yy[2]);
-                yy[3]=ymin+(j+1)*hy; zz[3]=fz(xx[3],yy[3]);
-                fpoly(xx,yy,zz,4);
-            }
-        }
     }
 
+    void draw() {
+
+        //int gd = DETECT, gm, i, j;
+
+        float x1, y1, x2, y2, x3, y3, x4, y4, hx, hy;
+
+        //initgraph( & gd,&gm, "..\BGI")//установка графического режима
+
+        mx = (int) (canvas.getWidth() - 10);
+        my = (int) (canvas.getHeight() - 80);
+
+        //setcolor(RED);
+        //setfillstyle(SOLID_FILL, WHITE);
+
+        hy = (ymax - ymin) / ny;     //шаг по y
+
+        hx = (xmax - xmin) / nx;     //шаг по x
+
+        exmax = ex(xmin, ymax, zmax); //вычисляем наибольшие и
+
+        exmin = ex(xmax, ymin, zmin); //наименьшие координаты на плоскости
+
+        eymax = ey(xmin, ymin, zmax); //проекции
+
+        eymin = ey(xmax, ymax, zmin);
+
+        line_color = Color.BLUE;
+        pol_color = Color.BLACK;
+
+        //вывод трех граней объемлющего параллелепипеда
+
+        vectfi(xmin, ymax, zmax, xmin, ymax, zmin, xmin, ymin, zmin, xmin, ymin, zmax);
+
+        vectfi(xmin, ymin, zmin, xmin, ymin, zmax, xmax, ymin, zmax, xmax, ymin, zmin);
+
+        vectfi(xmin, ymax, zmin, xmin, ymin, zmin, xmax, ymin, zmin, xmax, ymax, zmin);
+
+        line_color = Color.WHITE;
+        pol_color = Color.RED;
+
+        for (int j = 0; j <= ny - 1; j++)        //в цикле последовательно вычисляются
+
+        {                          //координаты вершин прямоугольников
+
+            y1 = j * hy + ymin;          //на плоскости Oxy от дальних к ближним и
+
+            y2 = j * hy + ymin;          //вызывается функция vectfi
+
+            y3 = (j + 1) * hy + ymin;
+
+            y4 = (j + 1) * hy + ymin;
+
+            for (int i = 0; i <= nx - 1; i++) {
+
+                x1 = i * hx + xmin;
+
+                x2 = (i + 1) * hx + xmin;
+
+                x3 = (i + 1) * hx + xmin;
+
+                x4 = i * hx + xmin;
+
+                //delay(1);            //задержка на 1 милисекунду
+
+                vectfi(x1, y1, f(x1, y1), x2, y2, f(x2, y2), x3, y3, f(x3, y3), x4, y4, f(x4, y4));
+
+            }
+
+        }
+
+        //getch();
+        //closegraph();
+
+    }
 
 
 }
