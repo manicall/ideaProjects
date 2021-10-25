@@ -6,6 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
@@ -17,7 +18,8 @@ public class Main extends Application {
         TabPane pane = new TabPane();
 
         pane.getTabs().addAll(
-                getTab("Первая поверхность"));
+                getTab("Первый пример", new SurfaceExample1()),
+                getTab("Второй пример", new SurfaceExample2()));
 
         primaryStage.setTitle("Поверхности");
         primaryStage.setScene(new Scene(pane, 800, 640));
@@ -25,16 +27,17 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    Tab getTab(String title){
+    Tab getTab(String title, Surface surface){
         Canvas canvas = new Canvas(800, 640);
+        canvas.setScaleX(0.8);
+        canvas.setScaleY(0.8);
+        canvas.rotateProperty();
+
+        surface.draw(canvas);
 
         Tab tab = new Tab(title);
         tab.setContent(canvas);
         tab.setClosable(false);
-
-        Render render = new Render(canvas);
-        render.draw();
-
         return tab;
     }
 

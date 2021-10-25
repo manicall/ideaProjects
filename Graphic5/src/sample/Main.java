@@ -14,8 +14,8 @@ public class Main extends Application {
 
         pane.getTabs().addAll(
                 getTab(new Fractal1(), "Первый фрактал"),
-                getTab(new Fractal2(), "Второй фрактал"),
-                getTab(new Fractal3(), "Пример"));
+                getTab(new Fractal2(), "Второй фрактал")//,
+                /*getTab(new Fractal3(), "Пример")*/);
 
         primaryStage.setTitle("Фракталы");
         primaryStage.setScene(new Scene(pane, 800, 640));

@@ -14,7 +14,8 @@ public class Render {
 
     Render(Canvas canvas, Fractal fractal){
         this.canvas = canvas;
-        xmin=-1.5; ymin=-1; xmax=1.5; ymax=1;
+        int scale = 10;
+        xmin=-scale; ymin=-scale; xmax=scale; ymax=scale;
         maxX = canvas.getWidth(); maxY = canvas.getHeight();
         this.fractal = fractal;
     }
@@ -55,7 +56,7 @@ public class Render {
 
     void putpoint (double x, double y, Color color)
     {
-        GraphicsContext context = canvas.getGraphicsContext2D(); // и получаем GraphicContext
+        GraphicsContext context = canvas.getGraphicsContext2D();
         PixelWriter pw = context.getPixelWriter();
 
         if(x<xmax&&x>xmin&&y<ymax&&y>ymin)
