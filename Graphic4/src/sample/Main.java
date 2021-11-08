@@ -14,6 +14,8 @@ public class Main extends Application {
         TabBuilder tabBuilder = new TabBuilder();
 
         pane.getTabs().addAll(
+                tabBuilder.getSimpleTab("Первая поверхность", new SurfaceTask1()),
+                tabBuilder.getTabWithTextField("Вторая поверхность", new SurfaceTask2()),
                 tabBuilder.getTabWithTextField("Третья поверхность", new SurfaceTask3()),
                 tabBuilder.getSimpleTab("Первый пример", new SurfaceExample1()),
                 tabBuilder.getSimpleTab("Второй пример", new SurfaceExample2()),

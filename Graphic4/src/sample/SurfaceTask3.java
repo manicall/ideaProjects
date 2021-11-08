@@ -83,9 +83,8 @@ public class SurfaceTask3 implements Surface {
         gc.setStroke(line_color);
         gc.setFill(pol_color);
 
-        gc.fillPolygon(xx, yy, 4);                 //рисование закрашенного четырехугольника
-        gc.strokePolygon(xx, yy, 4);                 //рисование закрашенного четырехугольника
-
+        gc.fillPolygon(xx, yy, 4);   //рисование закрашенного четырехугольника
+        gc.strokePolygon(xx, yy, 4); //рисование закрашенного четырехугольника
     }
 
     public void draw(Canvas canvas, float k) {
@@ -121,10 +120,10 @@ public class SurfaceTask3 implements Surface {
         line_color = Color.WHITE;
         pol_color = Color.RED;
 
-        for (int j = 0; j <= ny - 1; j++)        //в цикле последовательно вычисляются
-        {                          //координаты вершин прямоугольников
-            y1 = j * hy + ymin;          //на плоскости Oxy от дальних к ближним и
-            y2 = j * hy + ymin;          //вызывается функция vectfi
+        for (int j = 0; j <= ny - 1; j++) //в цикле последовательно вычисляются
+        {                                 //координаты вершин прямоугольников
+            y1 = j * hy + ymin;           //на плоскости Oxy от дальних к ближним и
+            y2 = j * hy + ymin;           //вызывается функция vectfi
             y3 = (j + 1) * hy + ymin;
             y4 = (j + 1) * hy + ymin;
 
@@ -136,7 +135,6 @@ public class SurfaceTask3 implements Surface {
 
                 vectfi(x1, y1, f(x1, y1), x2, y2, f(x2, y2), x3, y3, f(x3, y3), x4, y4, f(x4, y4));
             }
-
         }
     }
 

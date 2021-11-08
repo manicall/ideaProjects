@@ -5,8 +5,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;
 
-import java.awt.*;
-
 public class SurfaceExample1 implements Surface{
     int nx =50;
     int ny =50;
@@ -15,7 +13,7 @@ public class SurfaceExample1 implements Surface{
 
     float xv = 5f, yv = 3.5f, zv = 3f ; // положение наблюдателя
 
-    float d = 10 ;            // расстояние до плоскости проекции
+    float d = 10;            // расстояние до плоскости проекции
     float cosa, sina ;         // меридиана точки наблюдения
     float exmax, exmin, eymax, eymin ;
     int gmex, gmey ;
@@ -49,7 +47,9 @@ public class SurfaceExample1 implements Surface{
         int i,j, temp, x, y, maxacc, accx, accy, dx, dy,
                 length=Math.abs(x1-x0);
         if ((i=Math.abs(y1-y0))>length) length=i;
-//     if (length==0) return;
+
+
+
         maxacc=2*length; accx=accy=length;
         for (j=0; j<2; j++)
         {
@@ -87,7 +87,9 @@ public class SurfaceExample1 implements Surface{
         }
     }
     // Функция z=f(x,y)
-    float fz(float x, float y) {return (float) Math.sin(x*x+y*y);}
+    float fz(float x, float y) {
+        return (float) Math.sin(x*x+y*y);
+         }
     //float fz(float x, float y) {return (x*x*y-x*x*x)*0.1;}
     // Центральная проекция
     // x координата на плоскости проекциии
@@ -125,12 +127,10 @@ public class SurfaceExample1 implements Surface{
     //-------------------------------------------------------------------------
     public void draw(Canvas canvas)
     {
+
         this.canvas = canvas;
         gmex= (int) canvas.getWidth();
         gmey= (int) canvas.getHeight();
-
-
-
 
         float x, y, z;
 

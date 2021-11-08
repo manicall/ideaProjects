@@ -1,7 +1,5 @@
 package sample;
 
-package sample;
-
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -10,35 +8,42 @@ import static java.lang.Math.pow;
 
 public class SurfaceTask2 implements Surface {
     Canvas canvas;
-    int nx = 40;
-    int ny = 40;
-    float p = 1f;
-    float k = 15;
+    int nx = 50;
+    int ny = 50;
+    float p = 1.5f;
+    float a = 1;
+
+    float xv = 5f, yv = 3.5f, zv = 3f ; // положение наблюдателя
+    float d = 10;            // расстояние до плоскости проекции
+    float cosa, sina ;         // меридиана точки наблюдения
 
     float xmax = p, xmin = -p, ymax = p, ymin = -p, zmax = 2 * p, zmin = 0;
     float exmax, exmin, eymax, eymin;
     int mx, my;
     Color line_color, pol_color;
 
-    SurfaceTask2() {   }
+    SurfaceTask2() {
+
+        cosa= (float) (xv/Math.sqrt(xv*xv+yv*yv));
+        sina= (float) (yv/Math.sqrt(xv*xv+yv*yv));
+    }
     //функция f по заданной точке на плоскости 0xy
     //находит и возвращает координату z
     float f(float x, float y) {
-        return (float) Math.exp(-pow(k, 2) * (pow(x, 2) + pow(y, 2)));
+        return (float) Math.abs(pow(a, 2) - pow(x, 2) - pow(y, 2));
     }
 
-    //по данной точке в пространстве находим абсциссу
-    //точки на плоскости проекции
-    float ex(float x, float y, float z) {
-        return (float) (-0.2 * x + 0.4 * y);
+    // Центральная проекция
+    // x координата на плоскости проекциии
+    float ex(float x, float y, float z)
+    {
+        return (-d*(-(x-xv)*sina+(y-yv)*cosa))/((x-xv)*cosa+(y-yv)*sina);
     }
-
-    //по данной точке в пространстве находим ординату
-    //точки на плоскости проекции
-    float ey(float x, float y, float z) {
-        return (float) (-0.1 * x + 0.2 * z);
+    // y координата на плоскости проекции
+    float ey ( float x, float y, float z )
+    {
+        return (-d*(z-zv))/((x-xv)*cosa+(y-yv)*sina);
     }
-
     //параметрами ф-ции являются координаты вершин четырехугольника
     //в пространстве
     //Ф-ция осуществляет проекцию этого четырехугольника
@@ -90,8 +95,8 @@ public class SurfaceTask2 implements Surface {
 
     }
 
-    public void draw(Canvas canvas, float k) {
-        this.k = k;
+    public void draw(Canvas canvas, float a) {
+        this.a = a;
         draw(canvas);
     }
 
