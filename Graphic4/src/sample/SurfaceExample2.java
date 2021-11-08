@@ -7,12 +7,14 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
+import static java.lang.Math.pow;
+
 public class SurfaceExample2 implements Surface {
     Canvas canvas;
     int nx = 60;
     int ny = 60;
 
-    float xmax = 5, xmin = -5, ymax = 5, ymin = -5,  zmax, zmin,hx,hy;
+    float xmax = 10, xmin = -10, ymax = 10, ymin = -10,  zmax, zmin,hx,hy;
     float exmax, exmin, eymax, eymin ;
     int gmex, gmey ;
     //-------------------------------------------------------------------------
@@ -28,7 +30,7 @@ public class SurfaceExample2 implements Surface {
     // Функция z=f(x,y)
     float fz(float x, float y)
     {
-        return (float) (7*Math.sin(x)*Math.sin(y));
+        return  (float) (7*Math.sin(x)*Math.sin(y));
     }
     // Параллельная проекция
     // x координата на плоскости проекциии
@@ -71,8 +73,7 @@ public class SurfaceExample2 implements Surface {
             yy[i] = p.get(i).getY();
         }
 
-
-        gc.setFill(Color.WHITE);
+        gc.setStroke(Color.WHITE);
         gc.fillPolygon(xx, yy, n);
         gc.strokePolygon(xx, yy, n);
     }
@@ -124,5 +125,10 @@ public class SurfaceExample2 implements Surface {
                 fpoly(xx,yy,zz,4);
             }
         }
+    }
+
+    @Override
+    public void draw(Canvas canvas, float k) {
+
     }
 }

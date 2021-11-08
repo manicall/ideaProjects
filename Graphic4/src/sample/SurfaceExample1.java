@@ -193,5 +193,10 @@ public class SurfaceExample1 implements Surface{
 
     }
 
+    @Override
+    public void draw(Canvas canvas, float k) {
+
+    }
+
 
 }
