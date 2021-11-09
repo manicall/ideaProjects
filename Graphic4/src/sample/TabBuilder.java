@@ -3,6 +3,7 @@ package sample;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
@@ -10,11 +11,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class TabBuilder {
-    public Tab getTabWithTextField(String title, final Surface surface){
+    public Tab getTabWithTextField(String TabTitle, String FieldTitle, final Surface surface){
         final Canvas canvas = getCanvas();
         surface.draw(canvas);
 
-        TextField textField = new TextField();
+        TextField textField = new TextField("1");
         textField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -22,10 +23,15 @@ public class TabBuilder {
             }
         });
 
-        VBox vBox = new VBox();
-        vBox.getChildren().addAll(textField, canvas);
+        Label label = new Label(FieldTitle);
 
-        Tab tab = new Tab(title);
+        VBox vBox = new VBox();
+        HBox hBox = new HBox();
+
+        hBox.getChildren().addAll(label, textField);
+        vBox.getChildren().addAll(hBox, canvas);
+
+        Tab tab = new Tab(TabTitle);
         tab.setContent(vBox);
         tab.setClosable(false);
         return tab;
